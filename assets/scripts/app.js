@@ -15,15 +15,29 @@ const LOG_EVENT_GAME_OVER = 'GAME_OVER';
 
 
 
-const enteredValue = prompt('Max Life for the game', '100');
 
-let chosenMaxLife = parseInt(enteredValue);
 let battleLog = [];
 let lastLoggedEntry;
 
-if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
-    chosenMaxLife = 100;
+function getMaxLifeValue() {
+    const enteredValue = prompt('Max Life for the game', '100');
+    const parsedValue = parseInt(enteredValue);
+    if (isNaN(parsedValue) || parsedValue <= 0) {
+       throw {message: 'Invalid user input, please input a number'}
+    }
+    return parsedValue;
 }
+let chosenMaxLife;
+
+try {
+    chosenMaxLife = getMaxLifeValue();
+} catch (error) {
+    console.log(error);
+    chosenMaxLife = 100;
+    alert('Invalid entry, default value of 100 entered');
+    // throw error;
+}
+
 
 let currentMonsterHealth = chosenMaxLife;
 let currentPlayerHealth = chosenMaxLife;
